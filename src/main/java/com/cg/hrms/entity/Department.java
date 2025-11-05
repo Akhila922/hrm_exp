@@ -1,8 +1,6 @@
-package com.cg.practicedb.entity;
+package com.cg.hrms.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -14,21 +12,20 @@ public class Department {
     @Column(name = "department_id")
     private Long id;
 
-    @Column(name = "department_name")
+    @Column(name = "department_name", nullable = false)
     private String name;
 
     @Column(name = "manager_id")
     private Long managerId;
-    
+
     @ManyToOne
-    @JsonBackReference
+    @JsonIgnore
     @JoinColumn(name = "location_id")
     private Location location;
 
-    @OneToMany(mappedBy = "department")
-    @JsonManagedReference
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Employee> employees;
-
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
