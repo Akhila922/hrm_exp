@@ -1,9 +1,8 @@
-package com.cg.practicedb.entity;
+package com.cg.hrms.entity;
 
 import jakarta.persistence.*;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "locations")
@@ -19,18 +18,16 @@ public class Location {
     @Column(name = "postal_code")
     private String postalCode;
 
-    @Column(name = "city")
+    @Column(name = "city", nullable = false)
     private String city;
 
     @Column(name = "state_province")
     private String stateProvince;
 
-    @Column(name = "country_id")
-    private String countryId;
-    
-    @OneToMany(mappedBy = "location")
-    @JsonManagedReference
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Department> departments;
+    
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -46,9 +43,6 @@ public class Location {
 
     public String getStateProvince() { return stateProvince; }
     public void setStateProvince(String stateProvince) { this.stateProvince = stateProvince; }
-
-    public String getCountryId() { return countryId; }
-    public void setCountryId(String countryId) { this.countryId = countryId; }
 
     public List<Department> getDepartments() { return departments; }
     public void setDepartments(List<Department> departments) { this.departments = departments; }
